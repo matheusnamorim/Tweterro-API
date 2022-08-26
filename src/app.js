@@ -14,6 +14,9 @@ server.post('/sign-up', (req, res) => {
 });
 
 server.get('/tweets', (req, res) => {
+    while(tweets.length > 10){
+        tweets.shift();
+    }
     res.send(tweets);
 });
 
