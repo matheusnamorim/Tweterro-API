@@ -5,17 +5,21 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-const users = [];
+let users = {};
 const tweets = [];
 
-
 server.post('/sign-up', (req, res) => {
-    users.push({...req.body})
+    users = req.body;
     res.send('OK');
 });
 
 server.get('/tweets', (req, res) => {
     res.send(tweets);
+});
+
+server.post('/tweets', (req, res) => {
+    tweets.push({...req.body, avatar: users.avatar});
+    res.send('OK');
 });
 
 server.listen(5000, () => console.log('Listening on port 5000'));
