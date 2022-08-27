@@ -9,6 +9,11 @@ let users = {};
 const tweets = [];
 
 server.post('/sign-up', (req, res) => {
+    
+    if(!req.body.username || !req.body.avatar){
+        res.status(400).send('Todos os campos são obrigatórios!');
+        return;
+    }
     users = req.body;
     res.send('OK');
 });
