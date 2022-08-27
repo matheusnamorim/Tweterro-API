@@ -18,10 +18,20 @@ server.post('/sign-up', (req, res) => {
 });
 
 server.get('/tweets', (req, res) => {
-    while(tweets.length > 10){
-        tweets.shift();
+    const { page } = req.query;
+
+    if(page < 1){
+        res.status(400).send('Informe uma página válida!');
+        return;
     }
-    res.send(tweets);
+
+    const updateTweets  = [...tweets];
+    updateTweets.reverse();
+    const list = [];
+    for(let i=(page*10)-10; i<page*10; i++){
+        if(updateTweets[i]) list.push(updateTweets[i]);
+    }
+    res.send(list);
 });
 
 server.post('/tweets', (req, res) => {
