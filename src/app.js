@@ -26,8 +26,12 @@ server.get('/tweets', (req, res) => {
 });
 
 server.post('/tweets', (req, res) => {
-    const avatar = users.find(value => value.username === req.body.username);
-    tweets.push({...req.body, avatar: avatar.avatar});
+    if(!req.body.username || !req.body.tweet){
+        res.status(400).send('Todos os campos são obrigatórios!');
+        return;
+    }
+    const user = users.find(value => value.username === req.body.username);
+    tweets.push({...req.body, avatar: user.avatar});
     res.send('OK');
 });
 
