@@ -15,7 +15,7 @@ server.post('/sign-up', (req, res) => {
         return;
     }
     users.push({...req.body});
-    res.send('OK');
+    res.status(201).send('OK');
 });
 
 server.get('/tweets', (req, res) => {
@@ -32,7 +32,7 @@ server.post('/tweets', (req, res) => {
     }
     const user = users.find(value => value.username === req.body.username);
     tweets.push({...req.body, avatar: user.avatar});
-    res.send('OK');
+    res.status(201).send('OK');
 });
 
 server.listen(5000, () => console.log('Listening on port 5000'));
