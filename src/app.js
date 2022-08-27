@@ -9,7 +9,6 @@ let users = [];
 const tweets = [];
 
 server.post('/sign-up', (req, res) => {
-    
     if(!req.body.username || !req.body.avatar){
         res.status(400).send('Todos os campos são obrigatórios!');
         return;
@@ -26,12 +25,17 @@ server.get('/tweets', (req, res) => {
 });
 
 server.post('/tweets', (req, res) => {
-    if(!req.body.username || !req.body.tweet){
+    const { user } = req.headers;
+    const { tweet } = req.body;
+    if(!user || !tweet){
         res.status(400).send('Todos os campos são obrigatórios!');
         return;
     }
-    const user = users.find(value => value.username === req.body.username);
-    tweets.push({...req.body, avatar: user.avatar});
+    const avatar = users.find(value => value.username === user);
+    tweets.push({
+        username: user,
+        tweet, 
+        avatar: avatar.avatar});
     res.status(201).send('OK');
 });
 
