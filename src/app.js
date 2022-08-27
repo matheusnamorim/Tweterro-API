@@ -5,7 +5,7 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
-let users = {};
+let users = [];
 const tweets = [];
 
 server.post('/sign-up', (req, res) => {
@@ -14,7 +14,7 @@ server.post('/sign-up', (req, res) => {
         res.status(400).send('Todos os campos são obrigatórios!');
         return;
     }
-    users = req.body;
+    users.push({...req.body});
     res.send('OK');
 });
 
@@ -26,7 +26,8 @@ server.get('/tweets', (req, res) => {
 });
 
 server.post('/tweets', (req, res) => {
-    tweets.push({...req.body, avatar: users.avatar});
+    const avatar = users.find(value => value.username === req.body.username);
+    tweets.push({...req.body, avatar: avatar.avatar});
     res.send('OK');
 });
 
