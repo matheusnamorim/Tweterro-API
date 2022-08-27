@@ -39,4 +39,14 @@ server.post('/tweets', (req, res) => {
     res.status(201).send('OK');
 });
 
+server.get('/tweets/:username', (req, res) => {
+    const { username } = req.params;
+    if(!(tweets.find(value => value.username === username))){
+        res.sendStatus(404);
+        return;
+    }
+    const tweetsUser = tweets.filter(value => value.username === username);
+    res.status(201).send(tweetsUser);
+});
+
 server.listen(5000, () => console.log('Listening on port 5000'));
